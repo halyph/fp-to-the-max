@@ -1,0 +1,5 @@
+package fpmax
+
+class fpmap {
+
+}
