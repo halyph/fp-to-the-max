@@ -1,8 +1,12 @@
 package fpmax
 
 import scala.io.StdIn.readLine
+import scala.util.Try
 
 object App {
+
+  def parseInt(s: String): Option[Int] = Try(s.toInt).toOption
+
   def main(args: Array[String]): Unit = {
     println("What is your name?")
 
@@ -17,16 +21,24 @@ object App {
 
       println("Dear " + name + ", please guess a number from 1 to 5:")
 
-      val guess = readLine().toInt
+      val guess = parseInt(readLine())
+      guess match {
+        case None => println("You did not enter the number")
+        case Some(guess) =>
+          if (guess == num) println("You guessed right, " + name + "!")
+          else println("You guessed wrong, " + name + "! The number was: " + num)
+      }
 
-      if (guess == num) println("You guessed right, " + name + "!")
-      else println("You guessed wrong, " + name + "! The number was: " + num)
+      var cont = true
+      while (cont) {
+        cont = false
+        println("Do you want to continue, " + name + "?")
 
-      println("Do you want to continue, " + name + "?")
-
-      readLine() match {
-        case "y" => exec = true
-        case "n" => exec = false
+        readLine().toLowerCase match {
+          case "y" => exec = true
+          case "n" => exec = false
+          case _ => cont = false
+        }
       }
     }
   }
